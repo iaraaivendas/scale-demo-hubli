@@ -1,0 +1,15 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.env": true
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.js": "${capture}.test.js",
+    "package.json": "package-lock.json, .env.example, .gitignore"
+  }
+}

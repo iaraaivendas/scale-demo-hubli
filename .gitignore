@@ -1,0 +1,27 @@
+# Dependências
+node_modules/
+**/node_modules/
+
+# Build do frontend (gerado pelo build.bat)
+backend/public/
+
+# Variáveis de ambiente com credenciais
+.env
+**/.env
+!**/.env.example
+!**/.env.demo.example
+
+# Logs
+*.log
+logs/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# PM2
+.pm2/
+
+# Bun
+bun.lock
+bun.lockb

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p platform/src/components/inbox platform/src/pages platform/src/api platform/public)",
+      "Bash(mkdir -p agents/prospector agents/copywriter agents/sequenciador agents/dispatcher agents/monitor agents/shared agents/demo)",
+      "Bash(mkdir -p mock-data docs .vscode)",
+      "Bash(powershell -Command \"Rename-Item -Path 'i.ara-scale-prototype' -NewName 'platform'\")",
+      "Bash(npm install:*)",
+      "Bash(node -e \"const path = require\\('path'\\); const d = 'C:/Users/lorenzo.amorim/Desktop/IAra system/Iara Scale Prototipo Hubli/backend/src/routes'; console.log\\('3 niveis:', path.resolve\\(d, '../../..'\\)\\); console.log\\('4 niveis:', path.resolve\\(d, '../../../..'\\)\\); console.log\\('5 niveis:', path.resolve\\(d, '../../../../..'\\)\\);\")",
+      "Bash(netstat -ano)",
+      "Bash(node -e \"console.log\\(process.execPath\\)\")",
+      "Bash(python3 -c \" import sys, json lines = sys.stdin.read\\(\\).strip\\(\\).split\\('\\\\n'\\) for line in lines[-30:]: try: obj = json.loads\\(line\\) role = obj.get\\('role', ''\\) content = obj.get\\('content', ''\\) if isinstance\\(content, list\\): for c in content: if isinstance\\(c, dict\\) and c.get\\('type'\\) == 'text': print\\(f'[{role}]: {c[\\\\\"text\\\\\"][:300]}'\\) elif isinstance\\(content, str\\): print\\(f'[{role}]: {content[:300]}'\\) except: pass \")",
+      "Bash(python3 -c ':*)",
+      "Bash(node -e ':*)"
+    ]
+  }
+}

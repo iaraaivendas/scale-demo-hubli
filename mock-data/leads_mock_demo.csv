@@ -1,0 +1,26 @@
+id,nome,empresa,cargo,email,telefone,segmento,tamanho_empresa,cidade,score_inicial,status,ultimo_contato
+001,Joao Silva,Tech Solutions Ltda,Diretor Comercial,joao.silva@techsolutions.com.br,+55 11 99001-0001,SaaS,Mid-Market,Sao Paulo,9,Novo,
+002,Mariana Costa,Grupo Varejo Nacional,Gerente de Marketing,mariana.costa@grupovarejonacional.com.br,+55 21 99002-0002,Varejo,Enterprise,Rio de Janeiro,8,Em Sequencia,05/04/2026
+003,Rafael Mendes,Industria Forte SA,VP de Operacoes,rafael.mendes@industriaforte.com.br,+55 31 99003-0003,Industria,Enterprise,Belo Horizonte,7,Em Sequencia,03/04/2026
+004,Camila Ferreira,Fintech Capital,CEO,camila.ferreira@fintechcapital.com.br,+55 11 99004-0004,Financeiro,PME,Sao Paulo,10,Respondeu,01/04/2026
+005,Bruno Alves,Construtora Horizonte,Diretor Financeiro,bruno.alves@construtorahorizonte.com.br,+55 41 99005-0005,Construcao,Mid-Market,Curitiba,6,Frio,15/03/2026
+006,Fernanda Lima,Saude Digital Ltda,COO,fernanda.lima@saudedigital.com.br,+55 11 99006-0006,Saude,PME,Sao Paulo,8,Em Sequencia,07/04/2026
+007,Lucas Rodrigues,AgriTech Brasil,Gerente de TI,lucas.rodrigues@agritechbrasil.com.br,+55 62 99007-0007,Agronegocio,Mid-Market,Goiania,7,Novo,
+008,Beatriz Nunes,Educacao Plus,Diretora de Produtos,beatriz.nunes@educacaoplus.com.br,+55 11 99008-0008,Educacao,PME,Campinas,5,Frio,20/02/2026
+009,Diego Carvalho,LogTech Express,Head de Expansao,diego.carvalho@logtechexpress.com.br,+55 51 99009-0009,Logistica,Mid-Market,Porto Alegre,9,Em Sequencia,08/04/2026
+010,Amanda Souza,Seguros Premium,Superintendente Comercial,amanda.souza@seguros premium.com.br,+55 11 99010-0010,Seguros,Enterprise,Sao Paulo,8,Respondeu,04/04/2026
+011,Felipe Teixeira,CloudStore Brasil,CTO,felipe.teixeira@cloudstore.com.br,+55 11 99011-0011,SaaS,Mid-Market,Sao Paulo,10,Novo,
+012,Gabriela Martins,Rede Farma,Diretora de Inovacao,gabriela.martins@redefarma.com.br,+55 85 99012-0012,Varejo,Enterprise,Fortaleza,7,Frio,10/03/2026
+013,Rodrigo Barbosa,Mineral Tech,Gerente Comercial,rodrigo.barbosa@mineraltech.com.br,+55 91 99013-0013,Mineracao,Enterprise,Belem,6,Em Sequencia,06/04/2026
+014,Tatiana Campos,HR Inteligente,CEO,tatiana.campos@hrinteligente.com.br,+55 11 99014-0014,RH Tech,PME,Sao Paulo,9,Novo,
+015,Marcelo Pereira,Energia Limpa SA,VP Comercial,marcelo.pereira@energialimpa.com.br,+55 61 99015-0015,Energia,Mid-Market,Brasilia,8,Em Sequencia,02/04/2026
+016,Juliana Ramos,Moda e Style,Diretora de E-commerce,juliana.ramos@modaestyle.com.br,+55 11 99016-0016,Varejo,PME,Sao Paulo,5,Frio,05/01/2026
+017,Thiago Oliveira,Consultoria Estrategica,Socio-Diretor,thiago.oliveira@consulest.com.br,+55 11 99017-0017,Consultoria,PME,Sao Paulo,7,Respondeu,09/04/2026
+018,Priscila Gomes,TeleMed Brasil,Gerente de Parcerias,priscila.gomes@telemedbrasil.com.br,+55 21 99018-0018,Saude,Mid-Market,Rio de Janeiro,8,Novo,
+019,Andre Santos,Rede Hotel Premium,Diretor de Tecnologia,andre.santos@redehotelpremium.com.br,+55 11 99019-0019,Hotelaria,Enterprise,Sao Paulo,6,Frio,28/02/2026
+020,Carolina Dias,PropTech Imoveis,Co-fundadora,carolina.dias@proptech.com.br,+55 11 99020-0020,Imoveis,PME,Sao Paulo,9,Em Sequencia,10/04/2026
+021,Henrique Moreira,AutoParts Nacional,Gerente de Vendas,henrique.moreira@autopartsnacional.com.br,+55 11 99021-0021,Automotivo,Mid-Market,Santo Andre,7,Novo,
+022,Vanessa Torres,Startup Acelerada,CEO,vanessa.torres@startupacelerada.com.br,+55 11 99022-0022,SaaS,PME,Sao Paulo,10,Respondeu,11/04/2026
+023,Eduardo Faria,Banco Digital XYZ,Head de Produtos,eduardo.faria@bancodigitalxyz.com.br,+55 11 99023-0023,Financeiro,Enterprise,Sao Paulo,8,Em Sequencia,07/04/2026
+024,Isabela Cruz,Design Agency,Socia-Diretora,isabela.cruz@designagency.com.br,+55 11 99024-0024,Marketing,PME,Sao Paulo,5,Frio,15/01/2026
+025,Caio Monteiro,ERP Solutions,Diretor de Implementacao,caio.monteiro@erpsolutions.com.br,+55 11 99025-0025,SaaS,Mid-Market,Sao Paulo,8,Novo,

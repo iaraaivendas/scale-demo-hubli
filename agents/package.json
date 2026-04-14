@@ -1,0 +1,23 @@
+{
+  "name": "iara-scale-agents",
+  "version": "1.0.0",
+  "description": "Agentes Comerciais I.Ara Scale — produção",
+  "scripts": {
+    "start": "pm2 start ecosystem.config.js",
+    "dev:prospector": "node prospector/index.js",
+    "dev:copywriter": "node copywriter/index.js",
+    "dev:sequenciador": "node sequenciador/index.js",
+    "dev:dispatcher": "node dispatcher/index.js",
+    "dev:monitor": "node monitor/index.js"
+  },
+  "dependencies": {
+    "openai": "^4.28.0",
+    "axios": "^1.6.7",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.3.1",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
