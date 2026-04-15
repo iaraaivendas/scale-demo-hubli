@@ -11,7 +11,14 @@
       "Bash(node -e \"console.log\\(process.execPath\\)\")",
       "Bash(python3 -c \" import sys, json lines = sys.stdin.read\\(\\).strip\\(\\).split\\('\\\\n'\\) for line in lines[-30:]: try: obj = json.loads\\(line\\) role = obj.get\\('role', ''\\) content = obj.get\\('content', ''\\) if isinstance\\(content, list\\): for c in content: if isinstance\\(c, dict\\) and c.get\\('type'\\) == 'text': print\\(f'[{role}]: {c[\\\\\"text\\\\\"][:300]}'\\) elif isinstance\\(content, str\\): print\\(f'[{role}]: {content[:300]}'\\) except: pass \")",
       "Bash(python3 -c ':*)",
-      "Bash(node -e ':*)"
+      "Bash(node -e ':*)",
+      "Bash(nslookup demo.vps.iarautomacoes.com.br 8.8.8.8)",
+      "Bash(curl -s --max-time 5 -I http://demo.vps.iarautomacoes.com.br)",
+      "Bash(nslookup iarautomacoes.com.br 8.8.8.8)",
+      "Bash(nslookup vps.iarautomacoes.com.br 8.8.8.8)",
+      "Bash(nslookup vps.iaraautomacoes.com.br 8.8.8.8)",
+      "Bash(nslookup n8n.vps.iaraautomacoes.com.br 8.8.8.8)",
+      "Bash(nslookup demo.vps.iaraautomacoes.com.br 8.8.8.8)"
     ]
   }
 }

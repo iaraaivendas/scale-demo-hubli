@@ -2,12 +2,10 @@
 node_modules/
 **/node_modules/
 
-# Build do frontend (gerado pelo build.bat)
-backend/public/
-
 # Variáveis de ambiente com credenciais
 .env
 **/.env
+ecosystem.config.js
 !**/.env.example
 !**/.env.demo.example
 
