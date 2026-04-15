@@ -78,23 +78,23 @@ function Pagination({ page, total, pageSize, onChange }: {
   const totalPages = Math.ceil(total / pageSize);
   if (totalPages <= 1) return null;
   return (
-    <div className="flex items-center justify-between pt-2 px-1">
-      <span className="text-[11px] text-muted-foreground">
+    <div className="flex items-center justify-between border-t border-border bg-muted/30 px-3 py-2 mt-1 rounded-b-md">
+      <span className="text-[11px] text-muted-foreground font-medium">
         {Math.min((page - 1) * pageSize + 1, total)}–{Math.min(page * pageSize, total)} de {total}
       </span>
       <div className="flex items-center gap-1">
         <button
           disabled={page === 1}
           onClick={() => onChange(page - 1)}
-          className="p-1 rounded hover:bg-accent disabled:opacity-30"
+          className="p-1.5 rounded-md hover:bg-accent disabled:opacity-30 transition-colors"
         >
           <ChevronLeft className="h-3.5 w-3.5" />
         </button>
-        <span className="text-[11px] text-muted-foreground px-1">{page}/{totalPages}</span>
+        <span className="text-[11px] text-muted-foreground px-1.5 font-medium tabular-nums">{page}/{totalPages}</span>
         <button
           disabled={page === totalPages}
           onClick={() => onChange(page + 1)}
-          className="p-1 rounded hover:bg-accent disabled:opacity-30"
+          className="p-1.5 rounded-md hover:bg-accent disabled:opacity-30 transition-colors"
         >
           <ChevronRight className="h-3.5 w-3.5" />
         </button>
@@ -279,7 +279,7 @@ export default function Inbox() {
       <div className="flex flex-col flex-1 min-h-0 gap-3 md:gap-4 p-3 md:p-6 overflow-hidden">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-foreground flex items-center gap-2">
               <Mail className="h-5 w-5 md:h-6 md:w-6 text-primary" />
@@ -289,7 +289,7 @@ export default function Inbox() {
               Pipeline comercial automatizado com IA
             </p>
           </div>
-          <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 md:gap-2 flex-wrap justify-end">
             <div className={cn("flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-full border",
               wsConnected ? "border-primary/40 text-primary bg-primary/10" : "border-muted text-muted-foreground")}>
               <span className={cn("w-1.5 h-1.5 rounded-full", wsConnected ? "bg-primary animate-pulse" : "bg-muted-foreground")} />
@@ -373,8 +373,8 @@ export default function Inbox() {
             {/* Lista de Leads */}
             {activeTab === "leads" && (
               <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
-                <ScrollArea className="flex-1 min-h-0">
-                  <div className="space-y-1.5 pr-2">
+                <ScrollArea className="flex-1 min-h-0 rounded-md border border-border/50">
+                  <div className="space-y-1.5 p-2">
                     {leads.length === 0 && (
                       <p className="text-sm text-muted-foreground text-center py-8">
                         Nenhum lead carregado.<br/>Rode o pipeline para começar.
@@ -416,8 +416,8 @@ export default function Inbox() {
             {/* Lista de Sequências */}
             {activeTab === "sequences" && (
               <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
-                <ScrollArea className="flex-1 min-h-0">
-                  <div className="space-y-1.5 pr-2">
+                <ScrollArea className="flex-1 min-h-0 rounded-md border border-border/50">
+                  <div className="space-y-1.5 p-2">
                     {sequences.length === 0 && (
                       <p className="text-sm text-muted-foreground text-center py-8">
                         Nenhuma sequência criada ainda.
@@ -550,7 +550,7 @@ export default function Inbox() {
 
                 {/* Sequência ativa — apenas a mais recente */}
                 {sequences.filter(s => s.leadId === selectedLead.id).slice(-1).map(seq => (
-                  <div key={seq.id} className="mt-4">
+                  <div key={seq.id} className="mt-6 pt-2 border-t border-border">
                     <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">E-mails gerados pela IA</p>
                     <div className="space-y-2">
                       {seq.steps.map(step => (
