@@ -53,4 +53,32 @@ Retorne APENAS JSON: { "score_final": <numero inteiro de 1 a 10>, "justificativa
   return JSON.parse(response.choices[0].message.content);
 }
 
-module.exports = { gerarEmail, pontuarLead };
+async function gerarMensagemWhatsApp({ nome, empresa, cargo, segmento, tamanho_empresa, cidade }) {
+  const prompt = `Você é especialista em vendas B2B brasileiras. Escreva uma mensagem de WhatsApp de prospecção comercial personalizada, curta e direta (máximo 3 parágrafos). Tom casual, sem saudação formal, sem markdown.
+
+Lead:
+- Nome: ${nome}
+- Empresa: ${empresa}
+- Cargo: ${cargo}
+- Segmento: ${segmento}
+- Porte: ${tamanho_empresa}
+- Cidade: ${cidade}
+
+Retorne APENAS JSON válido:
+{
+  "mensagem": "texto da mensagem WhatsApp sem asteriscos nem markdown",
+  "preview": "primeiras 60 letras da mensagem"
+}`;
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [{ role: 'user', content: prompt }],
+    response_format: { type: 'json_object' },
+    temperature: 0.7,
+    max_tokens: 400
+  });
+
+  return JSON.parse(response.choices[0].message.content);
+}
+
+module.exports = { gerarEmail, pontuarLead, gerarMensagemWhatsApp };

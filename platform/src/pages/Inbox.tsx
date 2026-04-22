@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import {
   Mail, Bot, CheckCircle2, Clock, Send, Loader2,
   Zap, Users, BarChart3, RefreshCw, Play, ChevronRight,
-  ChevronLeft, Building, Briefcase, Phone, Star, PenLine, X, Trash2
+  ChevronLeft, Building, Briefcase, Phone, Star, PenLine, X, Trash2,
+  MessageCircle, Wifi, WifiOff
 } from "lucide-react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
@@ -267,7 +268,44 @@ export default function Inbox() {
   const respondeu = leads.filter(l => l.status === "Respondeu").length;
   const frio     = leads.filter(l => l.status === "Frio").length;
 
-  const [mobilePanel, setMobilePanel] = useState<"list" | "detail" | "feed">("list");
+  const [mobilePanel, setMobilePanel] = useState<"list" | "detail" | "feed" | "whatsapp">("list");
+
+  // WhatsApp state
+  const [waNumero, setWaNumero] = useState("");
+  const [waSavedNumero, setWaSavedNumero] = useState<string | null>(null);
+  const [waStatus, setWaStatus] = useState<{ connected: boolean; mock: boolean } | null>(null);
+  const [waSaving, setWaSaving] = useState(false);
+
+  // Busca status WhatsApp e número salvo
+  useEffect(() => {
+    const fetchWaStatus = async () => {
+      try {
+        const [statusRes, numRes] = await Promise.all([
+          fetch(`${BACKEND_URL}/api/whatsapp/status`),
+          fetch(`${BACKEND_URL}/api/whatsapp/demo-number`),
+        ]);
+        if (statusRes.ok) setWaStatus(await statusRes.json());
+        if (numRes.ok) { const d = await numRes.json(); if (d.demoNumero) setWaSavedNumero(d.demoNumero); }
+      } catch { /* ignore */ }
+    };
+    fetchWaStatus();
+    const interval = setInterval(fetchWaStatus, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleSaveWaNumero = async () => {
+    if (!waNumero.trim()) return;
+    setWaSaving(true);
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/whatsapp/demo-number`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ numero: waNumero }),
+      });
+      if (res.ok) { const d = await res.json(); setWaSavedNumero(d.demoNumero); setWaNumero(""); }
+    } catch { /* ignore */ }
+    setWaSaving(false);
+  };
 
   return (
     <div className="flex flex-col h-screen max-h-screen bg-background overflow-hidden">
@@ -328,17 +366,19 @@ export default function Inbox() {
         {/* Mobile nav — só visível em telas pequenas */}
         <div className="flex lg:hidden rounded-md bg-muted p-1 flex-shrink-0">
           {[
-            { key: "list",   label: "Lista",    icon: Mail },
-            { key: "detail", label: "Detalhes", icon: Bot },
-            { key: "feed",   label: "Agentes",  icon: BarChart3 },
+            { key: "list",      label: "Lista",    icon: Mail },
+            { key: "detail",    label: "Detalhes", icon: Bot },
+            { key: "feed",      label: "Agentes",  icon: BarChart3 },
+            { key: "whatsapp",  label: "WhatsApp", icon: MessageCircle },
           ].map(tab => (
             <button
               key={tab.key}
-              onClick={() => setMobilePanel(tab.key as "list" | "detail" | "feed")}
-              className={cn("flex-1 flex items-center justify-center gap-1.5 rounded-sm px-2 py-1.5 text-xs font-medium transition-all",
+              onClick={() => setMobilePanel(tab.key as "list" | "detail" | "feed" | "whatsapp")}
+              className={cn("flex-1 flex flex-col items-center justify-center gap-0.5 rounded-sm px-1 py-1.5 text-[10px] font-medium transition-all",
                 mobilePanel === tab.key ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
             >
-              <tab.icon className="h-3.5 w-3.5" /> {tab.label}
+              <tab.icon className="h-3.5 w-3.5" />
+              <span>{tab.label}</span>
             </button>
           ))}
         </div>
@@ -346,32 +386,41 @@ export default function Inbox() {
         {/* Layout principal: lista leads + painel direito */}
         <div className="flex gap-4 flex-1 min-h-0">
 
-          {/* Coluna esquerda: tabs Leads / Sequences */}
+          {/* Coluna esquerda: tabs Leads / Sequences / WhatsApp */}
           <div className={cn(
             "flex flex-col min-h-0 overflow-hidden",
             "lg:w-[380px] xl:w-[420px]",
-            mobilePanel === "list" ? "flex w-full lg:flex" : "hidden lg:flex"
+            mobilePanel === "list" || mobilePanel === "whatsapp" ? "flex w-full lg:flex" : "hidden lg:flex"
           )}>
             {/* Tab headers */}
             <div className="flex rounded-md bg-muted p-1 mb-2 flex-shrink-0">
               <button
-                onClick={() => setActiveTab("leads")}
-                className={cn("flex-1 flex items-center justify-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-medium transition-all",
-                  activeTab === "leads" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+                onClick={() => { setActiveTab("leads"); setMobilePanel("list"); }}
+                className={cn("flex-1 flex items-center justify-center gap-1 rounded-sm px-2 py-1.5 text-xs font-medium transition-all",
+                  activeTab === "leads" && mobilePanel !== "whatsapp" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
               >
-                <Mail className="h-4 w-4" /> Leads ({leads.length})
+                <Mail className="h-3.5 w-3.5" /> Leads ({leads.length})
               </button>
               <button
-                onClick={() => setActiveTab("sequences")}
-                className={cn("flex-1 flex items-center justify-center gap-1.5 rounded-sm px-3 py-1.5 text-sm font-medium transition-all",
-                  activeTab === "sequences" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+                onClick={() => { setActiveTab("sequences"); setMobilePanel("list"); }}
+                className={cn("flex-1 flex items-center justify-center gap-1 rounded-sm px-2 py-1.5 text-xs font-medium transition-all",
+                  activeTab === "sequences" && mobilePanel !== "whatsapp" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
               >
-                <BarChart3 className="h-4 w-4" /> Sequências ({sequences.length})
+                <BarChart3 className="h-3.5 w-3.5" /> Seqs ({sequences.length})
+              </button>
+              <button
+                onClick={() => setMobilePanel("whatsapp")}
+                className={cn("flex-1 flex items-center justify-center gap-1 rounded-sm px-2 py-1.5 text-xs font-medium transition-all",
+                  mobilePanel === "whatsapp" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">WhatsApp</span>
+                <span className="sm:hidden">WA</span>
               </button>
             </div>
 
             {/* Lista de Leads */}
-            {activeTab === "leads" && (
+            {activeTab === "leads" && mobilePanel !== "whatsapp" && (
               <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
                 <ScrollArea className="flex-1 min-h-0 rounded-md border border-border/50">
                   <div className="space-y-1.5 p-2">
@@ -414,7 +463,7 @@ export default function Inbox() {
             )}
 
             {/* Lista de Sequências */}
-            {activeTab === "sequences" && (
+            {activeTab === "sequences" && mobilePanel !== "whatsapp" && (
               <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
                 <ScrollArea className="flex-1 min-h-0 rounded-md border border-border/50">
                   <div className="space-y-1.5 p-2">
@@ -462,6 +511,82 @@ export default function Inbox() {
                   </div>
                 </ScrollArea>
                 <Pagination page={seqPage} total={sequences.length} pageSize={PAGE_SIZE} onChange={setSeqPage} />
+              </div>
+            )}
+            {/* Painel WhatsApp */}
+            {mobilePanel === "whatsapp" && (
+              <div className="flex-1 min-h-0 flex flex-col gap-3 overflow-auto">
+                {/* Status */}
+                <div className={cn("flex items-center gap-2 px-3 py-2 rounded-lg border text-xs font-medium",
+                  waStatus?.connected
+                    ? "border-primary/40 bg-primary/10 text-primary"
+                    : waStatus?.mock
+                    ? "border-yellow-500/40 bg-yellow-500/10 text-yellow-400"
+                    : "border-muted bg-muted/30 text-muted-foreground")}>
+                  {waStatus?.connected
+                    ? <><Wifi className="h-3.5 w-3.5" /> WhatsApp conectado</>
+                    : waStatus?.mock
+                    ? <><WifiOff className="h-3.5 w-3.5" /> Modo simulação — configure Evolution API para envio real</>
+                    : <><WifiOff className="h-3.5 w-3.5" /> Verificando conexão...</>}
+                </div>
+
+                {/* Número demo */}
+                <div className="rounded-lg border border-border p-3 space-y-2">
+                  <p className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                    <MessageCircle className="h-3.5 w-3.5 text-primary" />
+                    Número para demonstração
+                  </p>
+                  {waSavedNumero && (
+                    <div className="flex items-center gap-2 px-2 py-1.5 rounded bg-primary/10 border border-primary/20">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                      <span className="text-xs text-primary font-medium">+{waSavedNumero}</span>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <Input
+                      value={waNumero}
+                      onChange={e => setWaNumero(e.target.value)}
+                      placeholder="Ex: 11999999999"
+                      className="text-sm h-8 flex-1"
+                      onKeyDown={e => e.key === "Enter" && handleSaveWaNumero()}
+                    />
+                    <Button size="sm" className="h-8 px-3" onClick={handleSaveWaNumero} disabled={waSaving || !waNumero.trim()}>
+                      {waSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Salvar"}
+                    </Button>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">
+                    Durante a demo, o Agente WhatsApp enviará uma mensagem personalizada para este número.
+                  </p>
+                </div>
+
+                {/* Feed de mensagens WhatsApp */}
+                <div className="flex-1 min-h-0">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wide mb-1.5 font-medium">Mensagens enviadas</p>
+                  <ScrollArea className="h-full rounded-md border border-border/50">
+                    <div className="p-2 space-y-2">
+                      {logs.filter(l => l.agente === "WhatsApp").length === 0 ? (
+                        <p className="text-xs text-muted-foreground text-center py-6">
+                          Nenhuma mensagem ainda.<br/>
+                          <span className="text-primary">Inicie o Pipeline</span> para ativar o Agente WhatsApp.
+                        </p>
+                      ) : (
+                        logs.filter(l => l.agente === "WhatsApp").map(log => (
+                          <div key={log.id} className="text-xs border border-border rounded-lg p-2.5 space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="bg-green-500/20 text-green-400 text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide">
+                                WhatsApp
+                              </span>
+                              <span className="text-[10px] text-muted-foreground ml-auto">
+                                {new Date(log.timestamp).toLocaleTimeString("pt-BR")}
+                              </span>
+                            </div>
+                            <p className="text-foreground leading-relaxed">{log.detalhe}</p>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </ScrollArea>
+                </div>
               </div>
             )}
           </div>

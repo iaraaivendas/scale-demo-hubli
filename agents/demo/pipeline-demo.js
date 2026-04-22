@@ -5,6 +5,7 @@ const copywriter = require('./copywriter-demo');
 const sequenciador = require('./sequenciador-demo');
 const dispatcher = require('./dispatcher-demo');
 const monitor = require('./monitor-demo');
+const whatsapp = require('./whatsapp-demo');
 const { logAtividade } = require('../shared/apiClient');
 
 const PAUSA_MS = parseInt(process.env.DEMO_PAUSA_MS) || 3000;
@@ -55,8 +56,13 @@ async function executarPipelineDemo() {
   await esperar(PAUSA_MS);
 
   // ETAPA 5 — Monitor
-  console.log('[DEMO] Etapa 5/5 — Agente Monitor...');
+  console.log('[DEMO] Etapa 5/6 — Agente Monitor...');
   await monitor.executar(sequencias);
+  await esperar(PAUSA_MS);
+
+  // ETAPA 6 — WhatsApp
+  console.log('[DEMO] Etapa 6/6 — Agente WhatsApp...');
+  await whatsapp.executar(leadsQualificados);
 
   await logAtividade({
     agente: 'Sistema',

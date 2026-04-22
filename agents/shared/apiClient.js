@@ -37,4 +37,13 @@ async function criarSequencia(dados) {
   return res.data;
 }
 
-module.exports = { logAtividade, atualizarStatusLead, buscarLeads, criarSequencia };
+async function getDemoNumero() {
+  try {
+    const res = await api.get('/api/whatsapp/demo-number');
+    return res.data.demoNumero || null;
+  } catch {
+    return null;
+  }
+}
+
+module.exports = { logAtividade, atualizarStatusLead, buscarLeads, criarSequencia, getDemoNumero };

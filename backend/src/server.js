@@ -10,6 +10,7 @@ const sequencesRouter = require('./routes/sequences');
 const activityRouter = require('./routes/activity');
 const emailRouter = require('./routes/email');
 const demoRouter = require('./routes/demo');
+const whatsappRouter = require('./routes/whatsapp');
 
 // Funções de reset carregadas na inicialização — mesma instância dos módulos
 const { clearLogs } = require('./routes/activity');
@@ -60,6 +61,7 @@ app.use('/api/sequences', sequencesRouter);
 app.use('/api/activity', activityRouter);
 app.use('/api/email', emailRouter);
 app.use('/api/demo', demoRouter);
+app.use('/api/whatsapp', whatsappRouter);
 
 // Health check
 app.get('/health', (req, res) => {
